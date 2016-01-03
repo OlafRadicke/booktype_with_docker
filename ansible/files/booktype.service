@@ -1,0 +1,23 @@
+# /etc/systemd/system/xwiki.service
+# Doku: https://coreos.com/docs/launching-containers/launching/getting-started-with-systemd/
+# Don't forget "systemctl daemon-reload" after changes
+
+[Unit]
+Description=A docker container with booktype
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill booktype
+ExecStartPre=-/usr/bin/docker rm booktype
+ExecStartPre=/usr/bin/docker pull olafradicke/booktype
+ExecStart=/usr/bin/docker run --name=booktype \
+   -p {{ booktype.port }} \
+   --link booktypepostgres:booktypepostgres \
+   olafradicke/booktype
+
+
+[Install]
+WantedBy=multi-user.target
+

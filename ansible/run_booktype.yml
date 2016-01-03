@@ -1,0 +1,49 @@
+---
+- name: "Run booktype as docker container"
+  hosts: "127.0.0.1"
+  connection: "local"
+  vars:
+    postgres:
+        volume: "/srv/docker/postgres/data"
+        user: "booktype"
+        passwd: "booktype"
+    booktype:
+        port: "49108:8080"
+  tasks:
+    - name: "create a volume data directory for xwiki"
+      file:
+        path: "{{ item }}"
+        state: "directory"
+        mode: "0777"
+      with_items:
+        - "{{ postgres.volumes }}"
+
+    - name: "Update booktypepostgres.service"
+      template:
+        src: "./files/booktypepostgres.service"
+        dest: "/etc/systemd/system/booktypepostgres.service"
+      notify:
+        - "reload systemctl daemon"
+        - "restart booktypepostgres container"
+
+    - name: "Update booktype.service"
+      template:
+        src: "./files/booktype.service"
+        dest: "/etc/systemd/system/booktype.service"
+      notify:
+        - "reload systemctl daemon"
+        - "restart booktype container"
+
+  handlers:
+    - name: "reload systemctl daemon"
+      shell: "systemctl daemon-reload"
+
+    - name: "restart booktype container"
+      service:
+        name: "booktype"
+        state: "restarted"
+
+    - name: "restart booktypepostgres container"
+      service:
+        name: "booktypepostgres"
+        state: "restarted"
