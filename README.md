@@ -8,9 +8,11 @@ su -c 'cd && docker build -t localhost/booktype .'
 su -c 'docker tag localhost/booktype localhost/booktype'
 ```
 
-# Run container #
+# Run container (with ansible) #
 
-su -c 'docker run --name my_booktype -d -P localhost/booktype'
+```
+su -c 'cd ./ansible && ansible-playbook ./run_booktype.yml '
+```
 
 # Other docus #
 
