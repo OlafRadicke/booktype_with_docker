@@ -34,6 +34,17 @@
         - "reload systemctl daemon"
         - "restart booktype container"
 
+    - name: "enabled booktype container start"
+      service:
+        name: "booktype"
+        enabled: "yes"
+
+    - name: "enabled booktypepostgres container start"
+      service:
+        name: "booktypepostgres"
+        enabled: "yes"
+
+
   handlers:
     - name: "reload systemctl daemon"
       shell: "systemctl daemon-reload"
