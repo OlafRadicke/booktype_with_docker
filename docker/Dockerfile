@@ -12,7 +12,7 @@ ENV	BOOKTYPE_PASS booktype
 ENV	BOOKTYPE_DB   booktype
 ENV PG_HOST booktyppostgres
 ENV PG_PORT '5432'
-ENV REDIS_HOST 'localhost'
+ENV REDIS_HOST 'booktyperedis'
 
 EXPOSE 8000
 EXPOSE 8080

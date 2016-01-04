@@ -15,6 +15,7 @@ ExecStartPre=/usr/bin/docker pull olafradicke/booktype
 ExecStart=/usr/bin/docker run --name=booktype \
    -p {{ booktype.port }} \
    --link booktypepostgres:booktypepostgres \
+   --link booktyperedis:booktyperedis \
    olafradicke/booktype
 
 

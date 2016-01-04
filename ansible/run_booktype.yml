@@ -20,34 +20,33 @@
 
     - name: "Update booktypepostgres.service"
       template:
-        src: "./files/booktypepostgres.service"
-        dest: "/etc/systemd/system/booktypepostgres.service"
+        src: "./files/{{ item }}.service"
+        dest: "/etc/systemd/system/{{ item }}.service"
       notify:
         - "reload systemctl daemon"
-        - "restart booktypepostgres container"
-
-    - name: "Update booktype.service"
-      template:
-        src: "./files/booktype.service"
-        dest: "/etc/systemd/system/booktype.service"
-      notify:
-        - "reload systemctl daemon"
-        - "restart booktype container"
+        - "restart {{ item }} container"
+      with_items:
+        - "booktyperedis"
+        - "booktypepostgres"
+        - "booktype"
 
     - name: "enabled booktype container start"
       service:
-        name: "booktype"
+        name: "{{ item }}"
         enabled: "yes"
-
-    - name: "enabled booktypepostgres container start"
-      service:
-        name: "booktypepostgres"
-        enabled: "yes"
-
+      with_items:
+        - "booktyperedis"
+        - "booktypepostgres"
+        - "booktype"
 
   handlers:
     - name: "reload systemctl daemon"
       shell: "systemctl daemon-reload"
+
+    - name: "restart booktyperedis container"
+      service:
+        name: "booktyperedis"
+        state: "restarted"
 
     - name: "restart booktype container"
       service:

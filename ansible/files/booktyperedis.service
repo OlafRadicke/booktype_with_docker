@@ -1,4 +1,4 @@
-# /etc/systemd/system/booktypepostgres.service
+# /etc/systemd/system/booktyperedis.service
 # Doku: https://coreos.com/docs/launching-containers/launching/getting-started-with-systemd/
 # Don't forget "systemctl daemon-reload" after changes
 
@@ -10,14 +10,12 @@ Requires=docker.service
 
 [Service]
 TimeoutStartSec=0
-ExecStartPre=-/usr/bin/docker kill booktypepostgres
-ExecStartPre=-/usr/bin/docker rm booktypepostgres
+ExecStartPre=-/usr/bin/docker kill booktyperedis
+ExecStartPre=-/usr/bin/docker rm booktyperedis
 ExecStartPre=/usr/bin/docker pull postgres
-ExecStart=/usr/bin/docker run --name=booktypepostgres \
-    -v {{ postgres.volume }}:/volume/postgres/data \
-    -e POSTGRES_USER="{{ postgres.user }}" \
-    -e POSTGRES_PASSWORD="{{ postgres.passwd }}" \
-    postgres
+ExecStart=/usr/bin/docker run --name=booktyperedis \
+    redis
+
 
 [Install]
 WantedBy=multi-user.target
