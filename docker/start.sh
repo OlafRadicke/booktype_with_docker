@@ -12,4 +12,4 @@ django-admin.py createsuperuser
 #cd /docker_booktype
 source /docker_booktype/bin/activate
 source ${instancename}/booktype.env
-django-admin.py /docker_booktype/runserver 0.0.0.0:8080
+django-admin.py runserver 0.0.0.0:8080
