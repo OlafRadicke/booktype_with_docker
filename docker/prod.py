@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os.path
-from .base import *
+from base import *
 
 # WEB SITE URL
 THIS_BOOKTYPE_SERVER = ''
