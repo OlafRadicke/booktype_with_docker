@@ -16,6 +16,6 @@ su -c 'cd ./ansible && ansible-playbook ./run_booktype.yml '
 
 # Other docus #
 
-[install docu of booktype](http://sourcefabric.booktype.pro/booktype-20-for-authors-and-publishers/installation-on-gnulinux/)
-[RabbitMQ as docker container](https://hub.docker.com/_/rabbitmq/)
-[PostgreSQL as docker contaner](https://hub.docker.com/_/postgres/)
+* [install docu of booktype](http://sourcefabric.booktype.pro/booktype-20-for-authors-and-publishers/installation-on-gnulinux/)
+* [RabbitMQ as docker container](https://hub.docker.com/_/rabbitmq/)
+* [PostgreSQL as docker contaner](https://hub.docker.com/_/postgres/)
