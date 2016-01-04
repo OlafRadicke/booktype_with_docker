@@ -8,6 +8,8 @@ su -c 'cd && docker build -t localhost/booktype .'
 su -c 'docker tag localhost/booktype localhost/booktype'
 ```
 
+You can find a ready images on [hub.docker.com]([https://hub.docker.com/r/olafradicke/booktype/)
+
 # Run container (with ansible) #
 
 ```
