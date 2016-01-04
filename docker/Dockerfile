@@ -59,4 +59,4 @@ COPY ./prod.py /${instancename}/settings/prod.py
 RUN cat /${instancename}/settings/prod.py
 
 
-CMD start.sh
+CMD ["/bin/bash", "start.sh"]
