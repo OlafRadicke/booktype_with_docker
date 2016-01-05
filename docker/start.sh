@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "DJANGO_SETTINGS_MODULE:"
+echo $DJANGO_SETTINGS_MODULE
 
 # Initialise Booktype
 source ${instancename}/booktype.env

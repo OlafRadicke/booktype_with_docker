@@ -18,17 +18,29 @@
       with_items:
         - "{{ postgres.volumes }}"
 
-    - name: "Update booktypepostgres.service"
+    - name: "Update booktyperedis.service"
       template:
-        src: "./files/{{ item }}.service"
-        dest: "/etc/systemd/system/{{ item }}.service"
+        src: "./files/booktyperedis.service"
+        dest: "/etc/systemd/system/booktyperedis.service"
       notify:
         - "reload systemctl daemon"
-        - "restart {{ item }} container"
-      with_items:
-        - "booktyperedis"
-        - "booktypepostgres"
-        - "booktype"
+        - "restart booktyperedis container"
+
+    - name: "Update booktypepostgres.service"
+      template:
+        src: "./files/booktypepostgres.service"
+        dest: "/etc/systemd/system/booktypepostgres.service"
+      notify:
+        - "reload systemctl daemon"
+        - "restart booktypepostgres container"
+
+    - name: "Update booktype.service"
+      template:
+        src: "./files/booktype.service"
+        dest: "/etc/systemd/system/booktype.service"
+      notify:
+        - "reload systemctl daemon"
+        - "restart booktype container"
 
     - name: "enabled booktype container start"
       service:
