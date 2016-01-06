@@ -49,7 +49,7 @@ RUN rm /${booktypeversion}.zip
 RUN pip install -r /Booktype/requirements/prod.txt
 
 # Create Booktype project
-RUN /Booktype/scripts/createbooktype --database postgresql ${instancename}
+RUN #!/bin/bash echo 'yes\n' | RUN /Booktype/scripts/createbooktype --database postgresql ${instancename}
 
 #RUN cp -R /${instancename}/docker_book_site/settings /${instancename}/settings
 RUN mkdir -p /${instancename}/settings
