@@ -1,0 +1,510 @@
+# -*- coding: utf-8 -*-
+
+import os
+
+from unipath import Path
+
+import djcelery
+
+djcelery.setup_loader()
+
+# DJANGO ADMIN
+ADMINS = (
+     ('admin', 'root@localhost'),
+)
+
+MANAGERS = ADMINS
+
+# Hosts/domain names that are valid for this site; required if DEBUG is False
+# See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = ['*']
+
+# Hosts/domain names that can export books from the /<bookid>/_export/ path
+EXPORT_ALLOWED_HOSTS = ['127.0.0.1']
+
+DEFAULT_NOTIFICATION_FILTER=u"#* !* ~* \u212c*"
+
+# You can customize which publish options this installation can use.
+# Options are: book, ebook, pdf, lulu, odt
+# PUBLISH_OPTIONS = ("book", "ebook")
+
+# BOOKTYPE
+PROFILE_ACTIVE = 'prod'
+
+BOOKTYPE_SITE_NAME = 'Dokumentationen'
+# This is how you can define name of your site
+# BOOKTYPE_SITE_NAME = '##BOOKTYPE_SITE_NAME##'
+BOOKTYPE_SITE_DIR = '##BOOKTYPE_SITE_DIR##'
+
+# The hostname of the Booktype server (e.g. www.myserver.org, 192.168.1.10, booktype.myserver.org)
+THIS_BOOKTYPE_SERVER = ''
+
+#BOOKTYPE_ROOT = '##BOOKTYPE_ROOT##'
+BOOKTYPE_ROOT = Path(os.path.abspath(__file__)).ancestor(3)
+
+BOOKTYPE_URL = ''
+#BOOKTYPE_URL = 'http://{}'.format(THIS_BOOKTYPE_SERVER)
+
+# E-MAIL OPTIONS
+DEFAULT_FROM_EMAIL = 'booktype@booktype.pro'
+REPORT_EMAIL_USER = 'report@booktype.pro'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+#EMAIL_HOST_USER = 'booktype@' + THIS_BOOKTYPE_SERVER
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_USE_TLS = False
+
+# MOBI EXPORT
+MOBI_CONVERT = "calibre"
+
+# MPDF RENDERER SETTINGS
+
+MPDF_DIR = ''
+PHP_PATH = 'php'
+MPDF_SCRIPT = '{}/booktype2mpdf.php'.format(BOOKTYPE_ROOT)
+
+# BOOKTYPE DIRECTORIES
+
+# site_static
+import booki
+
+# static
+STATIC_ROOT = BOOKTYPE_ROOT.child('static')
+STATIC_URL  = '{}/static/'.format(BOOKTYPE_URL)
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    BOOKTYPE_ROOT.child(BOOKTYPE_SITE_DIR).child('static'),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'booktype.apps.themes.finder.ThemeFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder'
+)
+
+# data
+DATA_ROOT = BOOKTYPE_ROOT.child('data')
+DATA_URL  = '{}/data/'.format(BOOKTYPE_URL)
+
+# profile images
+PROFILE_IMAGE_UPLOAD_DIR = 'profile_images/'
+
+# If you don't want to use default profile image you can set your own.
+# Place the image inside of /static/images/ directory in your Booktype project directory.
+#DEFAULT_PROFILE_IMAGE='anonymous.png'
+
+# book cover images
+COVER_IMAGE_UPLOAD_DIR = 'cover_images/'
+
+# group images
+GROUP_IMAGE_UPLOAD_DIR = 'group_images/'
+
+
+# obsolete
+MEDIA_ROOT = DATA_ROOT
+MEDIA_URL = DATA_URL
+
+ADMIN_MEDIA_PREFIX = '{}/media/'.format(BOOKTYPE_URL)
+
+# who gets credited as publisher if not otherwise specified
+DEFAULT_PUBLISHER = "Unknown"
+
+
+# REDIS STUFF
+REDIS_HOST = os.environ['REDIS_HOST']
+REDIS_PORT = 6379
+REDIS_DB = 0
+REDIS_PASSWORD = None
+
+# DJANGO STUFF
+
+AUTH_PROFILE_MODULE='account.UserProfile'
+
+TIME_ZONE = 'Europe/Berlin'
+
+LANGUAGE_CODE = 'en-us'
+
+gettext = lambda s: s
+
+LANGUAGES = (
+   ('en', gettext('American English')),
+   ('en-gb', gettext('British English')),
+   ('ca', gettext('Català')),
+   ('de', gettext('Deutsch')),
+   ('de-at', gettext('Österreichisches Deutsch')),
+   ('el', gettext('????????')),
+   ('es', gettext('Español')),
+   ('fr', gettext('Français')),
+   ('it', gettext('Italiano')),
+   ('hu', gettext('Magyar')),
+   ('nl', gettext('Nederlands')),
+   ('no', gettext('Norwegian')),
+   ('pl', gettext('Polski')),
+   ('pt', gettext('Português')),
+   ('ru', gettext('???????')),
+   ('sq', gettext('Shqipe')),
+   ('fi', gettext('Suomi')),
+   ('tr', gettext('Türkçe')),
+)
+
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = True
+
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale.
+USE_L10N = True
+
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = False
+
+LOCALE_PATHS = (
+    BOOKTYPE_ROOT.child(BOOKTYPE_SITE_DIR).child('locale'),
+    Path(booki.__file__).parent.child('locale'),
+    Path(booki.__file__).ancestor(2).child('booktype').child('locale'),
+    Path(booki.__file__).ancestor(2).child('booktypecontrol').child('locale'),
+)
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '##SECRET_KEY##'
+
+# Storage for messages framework
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# List of callables that know how to import templates from various sources.
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.eggs.Loader',
+    'booktype.apps.themes.loaders.Loader'
+)
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.csrf',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'booktype.apps.core.middleware.StrictAuthentication',
+    'booktype.apps.core.middleware.SecurityMiddleware',
+)
+
+
+# Python dotted path to the WSGI application used by Django's runserver.
+WSGI_APPLICATION = '{}.wsgi.application'.format('##BOOKTYPE_SITE_DIR##')
+
+TEMPLATE_DIRS = (
+    BOOKTYPE_ROOT.child(BOOKTYPE_SITE_DIR).child('templates'),
+)
+
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.admin',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'compressor',
+    'djcelery',
+
+    # list of booki apps
+    'booki.editor',
+
+    # needed for translation engine
+    'booktype',
+
+    # list of booktype apps
+    'booktype.apps.core',
+    'booktype.apps.portal',
+    'booktype.apps.loadsave',
+    'booktype.apps.importer',
+    'booktype.apps.convert',
+    'booktype.apps.edit',
+    'booktype.apps.reader',
+    'booktype.apps.account',
+    'booktype.apps.themes',
+    'booktype.apps.export',
+
+    # to be removed
+    'booki.messaging',
+
+    'sputnik',
+    'booktypecontrol'
+)
+
+BOOKTYPE_CONVERTER_MODULES = (
+    'booktype.convert.converters',
+)
+
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+# set of default roles and corresponding permissions
+BOOKTYPE_DEFAULT_ROLES = {
+    'anonymous_users': [
+        'reader.can_view_full_page',
+        'reader.can_view_draft'
+    ],
+    'registered_users': [
+        'reader.can_view_full_page',
+        'reader.can_view_draft',
+        'account.can_upload_book',
+    ]
+}
+
+# Configuration for the invite functionality
+BOOKTYPE_INVITE_SUBJECT = gettext('You\'ve been invited to collaborate')
+BOOKTYPE_DEFAULT_INVITE_MESSAGE = gettext('You\'ve been invited to collaborate')
+
+# DEPRECATED CONFIG
+
+BOOKTYPE_NAME = BOOKTYPE_SITE_NAME
+BOOKI_NAME = BOOKTYPE_NAME
+BOOKI_ROOT = BOOKTYPE_ROOT
+BOOKI_URL = BOOKTYPE_URL
+THIS_BOOKI_SERVER = THIS_BOOKTYPE_SERVER
+BOOKI_MAINTENANCE_MODE = False
+
+
+FILE_UPLOAD_HANDLERS = (
+    'booktype.apps.importer.uploadhandler.ProgressUploadHandler',
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler'
+)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-booktype-id'
+    }
+}
+
+# Setting to avoid warning message of new Django Test Runner
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+# this is to create additional metadata fields for books
+# we can use any of the fields of Django Forms module.
+# I can be something like this:
+
+# ADDITIONAL_METADATA = {
+#     'field_name_one': {
+#         'TYPE': 'ChoiceField',
+#         'ATTRS': {
+#             'choices': [
+#                 ('option1', gettext('Trans String 1')),
+#                 ('option2', gettext('Trans String 2'))
+#             ]
+#         }
+#     },
+#     'field_name_two': {
+#         'TYPE': 'CharField',
+#         'WIDGET': 'Textarea',
+#         'WIDGET_ATTRS': {'class': 'css-class'}
+#     }
+# }
+
+_ADDITIONAL_METADATA = [
+    ('edited_by', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Edited by'
+            },
+        'WIDGET': 'TextInput'
+    }),
+    ('text_by', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Text by'},
+        'WIDGET': 'TextInput'
+    }),
+    ('translation_by', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Translation by'},
+        'WIDGET': 'TextInput'
+    }),
+    ('introduction_by', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Introduction by'},
+        'WIDGET': 'TextInput'
+    }),
+    ('cover_design', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Cover design'},
+        'WIDGET': 'TextInput'
+    }),
+    ('cover_photography', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Cover image'},
+        'WIDGET': 'TextInput'
+    }),
+    ('photography', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Photography by'},
+        'WIDGET': 'TextInput'
+    }),
+    ('illustration_by', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Illustration by'},
+        'WIDGET': 'TextInput'
+    }),
+    ('research', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Research'},
+        'WIDGET': 'TextInput'
+    }),
+    ('lectorate', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Lectorate'},
+        'WIDGET': 'TextInput'
+    }),
+    ('proofreading', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Proofreading'},
+        'WIDGET': 'TextInput'
+    }),
+    ('rights_clearing', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Rights clearing'},
+        'WIDGET': 'TextInput'
+    }),
+    ('typeface', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Typeface'},
+        'WIDGET': 'TextInput'
+    }),
+    ('printed_on', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Printed on'},
+        'WIDGET': 'TextInput'
+    }),
+    ('paper_certification', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Paper certification'},
+        'WIDGET': 'TextInput'
+    }),
+    ('bookbinder', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Bookbinder'},
+        'WIDGET': 'TextInput'
+    }),
+    ('printer', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Printer company'},
+        'WIDGET': 'TextInput'
+    }),
+    ('printer_country', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Printer country'},
+        'WIDGET': 'TextInput'
+    }),
+    ('acknowledgement', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Acknowledgement'},
+        'WIDGET': 'Textarea'}
+    ),
+    ('edition', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Edition'},
+        'WIDGET': 'TextInput'
+    }),
+    ('url_publisher', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'URL Publisher'},
+        'WIDGET': 'TextInput'
+    }),
+    ('url_author', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'URL Author'},
+        'WIDGET': 'TextInput'
+    }),
+    ('bibliographic_information', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Bibliographic information'},
+        'WIDGET': 'TextInput'
+    }),
+    ('dedication', {
+        'TYPE': 'CharField',
+        'ATTRS': {
+            'required': False,
+            'label': 'Dedication'},
+        'WIDGET': 'Textarea'
+    })
+]
+
+import collections
+
+ADDITIONAL_METADATA = collections.OrderedDict(_ADDITIONAL_METADATA)

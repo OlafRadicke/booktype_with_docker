@@ -4,7 +4,7 @@ import os.path
 from base import *
 
 # WEB SITE URL
-THIS_BOOKTYPE_SERVER = ''
+THIS_BOOKTYPE_SERVER = 'localhost'
 BOOKTYPE_URL = ''
 # BOOKTYPE_URL = 'http://{}'.format(THIS_BOOKTYPE_SERVER)
 
@@ -18,9 +18,9 @@ CONVERT_URL = BOOKTYPE_URL
 # MPDF RENDERER SETTINGS
 # Change lines below in case you want to use other version
 # of php or mpdf in dev profile
-# PHP_PATH = 'php'
-# MPDF_DIR = ''
-# MPDF_SCRIPT = ''
+MPDF_DIR = '/var/www/mpdf60/'
+PHP_PATH = '/usr/bin/php'
+MPDF_SCRIPT = '/usr/local/src/booktype/scripts/mpdf.php'
 
 # DEBUG
 DEBUG = TEMPLATE_DEBUG = False
@@ -32,10 +32,10 @@ PROFILE_ACTIVE = 'prod'
 ROOT_URLCONF = '{}.urls.prod'.format(BOOKTYPE_SITE_DIR)
 
 # REDIS
-REDIS_HOST = os.environ['REDIS_HOST']
-REDIS_PORT = 6379
-REDIS_DB = 0
-REDIS_PASSWORD = None
+#REDIS_HOST = os.environ['REDIS_HOST']
+#REDIS_PORT = 6379
+#REDIS_DB = 0
+#REDIS_PASSWORD = None
 
 # DATABASE
 DATABASES = {
@@ -48,6 +48,8 @@ DATABASES = {
         'PORT': os.environ['PG_PORT']
     }
 }
+
+
 
 # E-MAIL
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

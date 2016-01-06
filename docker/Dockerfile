@@ -26,7 +26,6 @@ RUN apt-get install -y wget \
     unzip \
     python \
     python-dev \
-    sqlite3 \
     git-core \
     python-pip \
     python-virtualenv \
@@ -52,11 +51,12 @@ RUN pip install -r /Booktype/requirements/prod.txt
 # Create Booktype project
 RUN /Booktype/scripts/createbooktype --database postgresql ${instancename}
 
-RUN cp -R /${instancename}/docker_book_site/settings /${instancename}/settings
-RUN ls -ah /${instancename}/settings
-RUN rm -f /${instancename}/settings/prod.py
+#RUN cp -R /${instancename}/docker_book_site/settings /${instancename}/settings
+RUN ls -lah /${instancename}/settings
+#RUN rm -f /${instancename}/settings/prod.py
 COPY ./prod.py /${instancename}/settings/prod.py
-RUN cat /${instancename}/settings/prod.py
+COPY ./base.py /${instancename}/settings/base.py
+#RUN cat /${instancename}/settings/prod.py
 
 
 CMD ["/bin/bash", "start.sh"]
