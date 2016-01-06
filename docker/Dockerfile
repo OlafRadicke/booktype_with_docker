@@ -6,6 +6,7 @@ ENV booktypeversion 2.0
 #env	DJANGO_SETTINGS_MODULE ${instancename}.settings
 ENV HTTP_HOST localhost
 ENV SITE_NAME Documentation
+ENV DATA_ROOT /srv/booktype/data/
 ENV	DJANGO_SETTINGS_MODULE settings.prod
 ENV	PYTHONPATH $PYTHONPATH://:/${instancename}/lib/:/Booktype/lib:/${instancename}
 ENV	BOOKTYPE_USER booktype
@@ -17,7 +18,7 @@ ENV REDIS_HOST 'booktyperedis'
 
 EXPOSE 8000
 EXPOSE 8080
-VOLUME /${instancename}/data/
+VOLUME ${DATA_ROOT}
 
 RUN apt-get update && apt-get -y upgrade
 
@@ -49,7 +50,8 @@ RUN rm /${booktypeversion}.zip
 RUN pip install -r /Booktype/requirements/prod.txt
 
 # Create Booktype project
-RUN #!/bin/bash echo 'yes\n' | RUN /Booktype/scripts/createbooktype --database postgresql ${instancename}
+# RUN #!/bin/bash echo 'yes\n' | /Booktype/scripts/createbooktype --database postgresql ${instancename}
+RUN /Booktype/scripts/createbooktype --database postgresql ${instancename}
 
 #RUN cp -R /${instancename}/docker_book_site/settings /${instancename}/settings
 RUN mkdir -p /${instancename}/settings

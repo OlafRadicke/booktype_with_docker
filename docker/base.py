@@ -92,7 +92,8 @@ STATICFILES_FINDERS = (
 )
 
 # data
-DATA_ROOT = BOOKTYPE_ROOT.child('data')
+#DATA_ROOT = BOOKTYPE_ROOT.child('data')
+DATA_ROOT = os.environ['DATA_ROOT']
 DATA_URL  = '{}/data/'.format(BOOKTYPE_URL)
 
 # profile images
