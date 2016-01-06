@@ -9,6 +9,8 @@
         passwd: "booktype"
     booktype:
         port: "49108:8080"
+        volume: "/srv/docker/booktype/data"
+
   tasks:
     - name: "create a volume data directory for xwiki"
       file:
@@ -16,7 +18,8 @@
         state: "directory"
         mode: "0777"
       with_items:
-        - "{{ postgres.volumes }}"
+        - "{{ postgres.volume }}"
+        - "{{ booktype.volume }}"
 
     - name: "Update booktyperedis.service"
       template:
