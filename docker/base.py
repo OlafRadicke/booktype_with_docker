@@ -31,7 +31,7 @@ DEFAULT_NOTIFICATION_FILTER=u"#* !* ~* \u212c*"
 # BOOKTYPE
 PROFILE_ACTIVE = 'prod'
 
-BOOKTYPE_SITE_NAME = 'Dokumentationen'
+BOOKTYPE_SITE_NAME = os.environ['SITE_NAME']
 # This is how you can define name of your site
 # BOOKTYPE_SITE_NAME = '##BOOKTYPE_SITE_NAME##'
 BOOKTYPE_SITE_DIR = '##BOOKTYPE_SITE_DIR##'

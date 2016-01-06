@@ -5,6 +5,7 @@ ENV booktypeversion 2.0
 
 #env	DJANGO_SETTINGS_MODULE ${instancename}.settings
 ENV HTTP_HOST localhost
+ENV SITE_NAME Documentation
 ENV	DJANGO_SETTINGS_MODULE settings.prod
 ENV	PYTHONPATH $PYTHONPATH://:/${instancename}/lib/:/Booktype/lib:/${instancename}
 ENV	BOOKTYPE_USER booktype
@@ -16,8 +17,7 @@ ENV REDIS_HOST 'booktyperedis'
 
 EXPOSE 8000
 EXPOSE 8080
-#VOLUME /
-VOLUME /logs
+VOLUME /${instancename}/data/
 
 RUN apt-get update && apt-get -y upgrade
 

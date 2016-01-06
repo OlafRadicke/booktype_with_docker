@@ -4,9 +4,9 @@ import os.path
 from base import *
 
 # WEB SITE URL
-THIS_BOOKTYPE_SERVER = 'localhost'
-BOOKTYPE_URL = ''
-# BOOKTYPE_URL = 'http://{}'.format(THIS_BOOKTYPE_SERVER)
+THIS_BOOKTYPE_SERVER = os.environ['HTTP_HOST']
+#BOOKTYPE_URL = ''
+BOOKTYPE_URL = 'http://{}'.format(THIS_BOOKTYPE_SERVER)
 
 STATIC_URL = '{}/static/'.format(BOOKTYPE_URL)
 DATA_URL = '{}/data/'.format(BOOKTYPE_URL)
