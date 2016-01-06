@@ -52,6 +52,7 @@ RUN pip install -r /Booktype/requirements/prod.txt
 RUN /Booktype/scripts/createbooktype --database postgresql ${instancename}
 
 #RUN cp -R /${instancename}/docker_book_site/settings /${instancename}/settings
+RUN mkdir -p /${instancename}/settings
 RUN ls -lah /${instancename}/settings
 #RUN rm -f /${instancename}/settings/prod.py
 COPY ./prod.py /${instancename}/settings/prod.py
