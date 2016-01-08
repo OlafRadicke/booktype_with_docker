@@ -8,7 +8,7 @@ ENV HTTP_HOST localhost
 ENV SITE_NAME Documentation
 ENV DATA_ROOT /srv/booktype/data/
 ENV	DJANGO_SETTINGS_MODULE settings.prod
-ENV	PYTHONPATH $PYTHONPATH://:/${instancename}/lib/:/Booktype/lib:/${instancename}
+ENV	PYTHONPATH $PYTHONPATH:/:/${instancename}/lib/:/Booktype/lib:/${instancename}:/${instancename}/settings
 ENV	BOOKTYPE_USER booktype
 ENV	BOOKTYPE_PASS booktype
 ENV	BOOKTYPE_DB   booktype
@@ -16,7 +16,6 @@ ENV PG_HOST booktyppostgres
 ENV PG_PORT '5432'
 ENV REDIS_HOST 'booktyperedis'
 
-EXPOSE 8000
 EXPOSE 8080
 VOLUME ${DATA_ROOT}
 
@@ -60,6 +59,21 @@ RUN ls -lah /${instancename}/settings
 COPY ./prod.py /${instancename}/settings/prod.py
 COPY ./base.py /${instancename}/settings/base.py
 #RUN cat /${instancename}/settings/prod.py
+
+
+RUN echo "DJANGO_SETTINGS_MODULE:"
+RUN echo $DJANGO_SETTINGS_MODULE
+RUN echo "PYTHONPATH"
+RUN echo $PYTHONPATH
+
+# Initialise Booktype
+RUN cd /${instancename}/
+RUN ls -lah
+RUN #!/bin/bash source ${instancename}/booktype.env
+RUN django-admin.py syncdb --noinput
+RUN django-admin.py migrate
+RUN django-admin.py createsuperuser
+#django-admin.py createsuperuser --username='sysadmin' --email='sysadmin@okfn.org' --noinput
 
 
 CMD ["/bin/bash", "start.sh"]
