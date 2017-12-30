@@ -12,7 +12,7 @@ Requires=docker.service
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill booktyperedis
 ExecStartPre=-/usr/bin/docker rm booktyperedis
-ExecStartPre=/usr/bin/docker pull postgres
+ExecStartPre=/usr/bin/docker pull redis
 ExecStart=/usr/bin/docker run --name=booktyperedis \
     redis
 

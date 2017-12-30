@@ -12,7 +12,7 @@
         volume: "/srv/docker/booktype/data"
 
   tasks:
-    - name: "create a volume data directory for xwiki"
+    - name: "create a volume data directory for postgres and booktype data"
       file:
         path: "{{ item }}"
         state: "directory"
