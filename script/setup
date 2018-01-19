@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p /srv/docker_volumes/booktype/data
+mkdir -p /srv/docker_volumes/booktype/postgres/pg_data

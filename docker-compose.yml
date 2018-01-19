@@ -1,0 +1,53 @@
+version: '2.1'
+services:
+    booktype_redis:
+        image: redis
+        networks:
+            booktype_net:
+                aliases:
+                    - redis
+
+    booktype_rabbit:
+        image: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        networks:
+            booktype_net:
+                aliases:
+                    - rabbit
+
+    booktype_postgres:
+        image: postgres
+        volumes:
+            - /srv/docker_volumes/booktype/postgres/pg_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=booktype
+            - POSTGRES_PASSWORD=booktype
+            - POSTGRES_DB=booktype
+        networks:
+            booktype_net:
+                aliases:
+                    - postgres
+
+    booktype:
+        build:
+            context: ./booktype
+        image: booktype
+        volumes:
+            - /srv/docker_volumes/booktype/data::/docker_book/data
+        environment:
+            - "REDIS_HOST=redis"
+            - "PG_HOST=postgres"
+            - "PG_PORT=5432"
+        ports:
+            - "49108:8080"
+        depends_on:
+            - booktype_redis
+            - booktype_rabbit
+            - booktype_postgres
+        networks:
+            - booktype_net
+
+networks:
+    booktype_net:

@@ -3,11 +3,30 @@ A [booktype](https://www.sourcefabric.org/en/booktype/) in a docker container. I
 
 # quick start #
 
+## Docker compose deployment ##
+
+### Setup ###
+
+Run
+```bash
+./script/setup
+```
+for preparing the docker volumes directories.
+
+### Run application ###
+
+Enter
+```bash
+docker-compose up
+```
+
+## Ansible deployment ##
+
 Clone my repo
 ```
 Git clone https://github.com/OlafRadicke/booktype_with_docker.git
 ```
-Let run the ansible roll out script. It's create the docker container on your local machine. Before install ansible, 
+Let run the ansible roll out script. It's create the docker container on your local machine. Before install ansible,
 when it not exit.
 ```
 cd ./booktype_with_docker/ansible
